@@ -37,8 +37,8 @@ jobs:
     - name: Wait for Database
       run: |
         echo "Waiting for PostgreSQL to start..."
-        sleep 5
-        MAX_RETRIES=40
+        sleep 8
+        MAX_RETRIES=60
         RETRY_COUNT=0
         while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
           # Tenta conectar via psql
@@ -48,7 +48,7 @@ jobs:
           fi
           RETRY_COUNT=$((RETRY_COUNT + 1))
           echo "Database not ready yet... attempt $RETRY_COUNT/$MAX_RETRIES"
-          sleep 1.5
+          sleep 1
         done
         echo "✗ Database failed to start after $MAX_RETRIES attempts"
         docker compose logs postgres
