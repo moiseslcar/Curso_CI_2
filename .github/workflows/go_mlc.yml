@@ -31,25 +31,25 @@ jobs:
     - name: Create-DB
       run: docker compose up -d
 
+    - name: Check Docker Status
+      run: docker compose ps
+
     - name: Wait for Database
       run: |
         echo "Waiting for PostgreSQL to start..."
-        sleep 5
-        for i in {1..60}; do
-          if nc -z localhost 5432 2>/dev/null; then
-            echo "PostgreSQL is responding!"
-            for j in {1..10}; do
-              if docker compose exec -T postgres pg_isready -U root > /dev/null 2>&1; then
-                echo "Database is ready!"
-                exit 0
-              fi
-              sleep 1
-            done
+        sleep 3
+        MAX_RETRIES=30
+        RETRY_COUNT=0
+        while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+          if docker compose exec -T postgres pg_isready -U root > /dev/null 2>&1; then
+            echo "✓ Database is ready!"
+            exit 0
           fi
-          echo "Attempt $i/60..."
-          sleep 1
+          RETRY_COUNT=$((RETRY_COUNT + 1))
+          echo "Database not ready yet... attempt $RETRY_COUNT/$MAX_RETRIES"
+          sleep 2
         done
-        echo "Database failed to start"
+        echo "✗ Database failed to start after $MAX_RETRIES attempts"
         docker compose logs postgres
         exit 1
 
