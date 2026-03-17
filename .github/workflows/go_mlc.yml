@@ -64,3 +64,8 @@ jobs:
         cache: true
     - name: Build
       run: go build -v main.go
+
+  docker:
+    needs: build
+    uses: ./.github/workflows/Docker.yml
+    SECRETS: inherit # Permite que os segredos sejam passados para o workflow chamado
