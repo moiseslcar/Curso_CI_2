@@ -17,7 +17,7 @@ jobs:
       PORT: 5432
     strategy:
       matrix:
-        go_version: ['1.18', '1.21', '1.22']
+        go_version: ['1.22']
         os: ['ubuntu-latest', 'ubuntu-22.04']
     
     steps:
@@ -64,7 +64,7 @@ jobs:
 
     - name: Upload a Build Artifact
     # Do repositório indicado no Marketplace do GitHub Actions
-      uses: actions/upload-artifact@v3.2.2
+      uses: actions/upload-artifact@v4
       with:
         name: programa-go
         path: main
