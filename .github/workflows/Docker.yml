@@ -32,4 +32,4 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: moiseslcar/go-ci:${{ github.ref_name }}
+        tags: moiseslcar/go-ci:${{ github.ref_name }} # Recomendado usar "${{ github.sha }}" para garantir unicidade, mas aqui usamos a tag da branch para facilitar testes
