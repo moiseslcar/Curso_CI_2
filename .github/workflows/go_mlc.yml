@@ -51,10 +51,7 @@ jobs:
 
   build:
     needs: test
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: ['ubuntu-latest', 'ubuntu-22.04']
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - name: Set up Go
@@ -64,6 +61,14 @@ jobs:
         cache: true
     - name: Build
       run: go build -v main.go
+
+    - name: Upload a Build Artifact
+    # Do repositório indicado no Marketplace do GitHub Actions
+      uses: actions/upload-artifact@v3.1.0
+      with:
+        name: programa-go
+        path: main
+
 
   docker:
     needs: build
