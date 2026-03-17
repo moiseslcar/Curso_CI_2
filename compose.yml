@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  postgres:
+    image: "postgres:15-alpine"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=root      
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      # pg_isready é a forma mais rápida de validar o status sem abrir uma sessão psql completa
+      test: ["CMD-SHELL", "pg_isready -U root -d root"]
+      interval: 2s  # Verifica a cada 2 segundos (mais agressivo para CI)
+      timeout: 3s
+      retries: 10   # Tenta até 10 vezes antes de marcar como falha
+
+  # Removido o pgadmin para economizar recursos de CPU no runner do GitHub
+
+volumes:
+  postgres_data:
