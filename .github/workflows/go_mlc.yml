@@ -64,7 +64,7 @@ jobs:
 
     - name: Upload a Build Artifact
     # Do repositório indicado no Marketplace do GitHub Actions
-      uses: actions/upload-artifact@v3.1.0
+      uses: actions/upload-artifact@v3.2.2
       with:
         name: programa-go
         path: main
