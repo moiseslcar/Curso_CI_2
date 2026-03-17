@@ -9,6 +9,12 @@ on:
 jobs:
   test:
     runs-on: ${{ matrix.os }}
+    env: # Variáveis de ambiente para a conexão com o banco de dados
+      HOST: localhost
+      USER: root
+      PASSWORD: root
+      DBNAME: root
+      PORT: 5432
     strategy:
       matrix:
         go_version: ['1.18', '1.21', '1.22']
